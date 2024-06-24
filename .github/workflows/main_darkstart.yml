@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy PHP app to Azure Web App - darkstart
+name: Build and deploy Node.js app to Azure Web App - darkstart
 
 on:
   push:
@@ -16,20 +16,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+      - name: Set up Node.js version
+        uses: actions/setup-node@v3
         with:
-          php-version: '8.2'
+          node-version: '18.x'
 
-      - name: Check if composer.json exists
-        id: check_files
-        uses: andstor/file-existence-action@v1
-        with:
-          files: 'composer.json'
-
-      - name: Run composer install if composer.json exists
-        if: steps.check_files.outputs.files_exists == 'true'
-        run: composer validate --no-check-publish && composer install --prefer-dist --no-progress
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build --if-present
+          npm run test --if-present
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
@@ -37,7 +33,7 @@ jobs:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
-          name: php-app
+          name: node-app
           path: release.zip
 
   deploy:
@@ -53,7 +49,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: php-app
+          name: node-app
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
@@ -61,13 +57,13 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_34ADDD0E05EE4B4B903F1CEF7E7732BA }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_5CAB0685A87C4C0B8AAD58F9810ABC28 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_39C231916D6C41D4A1013F433D7D11D8 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_B1E63BCE2F4A47C2BB88DF012F2E207A }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_D4419F70E6CD4CA7AF9C8CF08F79EC83 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_8213BA81B4C74B5999FF9CF00496EDFA }}
 
       - name: 'Deploy to Azure Web App'
-        uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
         with:
           app-name: 'darkstart'
           slot-name: 'Production'
