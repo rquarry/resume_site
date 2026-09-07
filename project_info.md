@@ -7,7 +7,7 @@ This repository is Ryan T. Quarry's public professional resume website. Its prim
 The project currently has three related goals:
 
 1. Present a concise, responsive professional profile centered on cybersecurity operations, technical leadership, U.S. Coast Guard experience, education, certifications, and core competencies.
-2. Provide a small capture-the-flag (CTF) challenge through clues embedded in the page, repository history, and image assets.
+2. Provide a small capture-the-flag (CTF) challenge.
 3. Serve as a simple learning project for deploying a framework-free website with Microsoft Azure Static Web Apps and GitHub Actions.
 
 The site is based on the MIT-licensed Start Bootstrap Resume template and has been customized with Ryan's content, profile image, metadata, and CTF section.
@@ -98,7 +98,7 @@ The CTF section is intentional, not placeholder copy. It asks visitors to discov
 - The GitHub repository associated with the site.
 - The city shown in the original profile image.
 
-Relevant clues include an encoded HTML comment near the end of `index.html`, repository/image history, and the retained older image. Future cleanup, metadata changes, image replacement, history rewriting, or removal of apparently unused assets can break the challenge. Preserve these clues unless the user explicitly asks to revise or remove the CTF.
+Future cleanup, metadata changes, image replacement, history rewriting, or removal of apparently unused assets can break the challenge. Preserve these clues unless the user explicitly asks to revise or remove the CTF.
 
 Do not publish the solutions directly in normal page copy or in future AI context files.
 
@@ -113,7 +113,6 @@ Deployment settings:
 - Output location: `.`
 - Build preset: effectively custom/no application build
 - Azure deploy action: `Azure/static-web-apps-deploy@v1`
-- Required secret: `AZURE_STATIC_WEB_APPS_API_TOKEN_RED_DESERT_0A84E060F`
 
 The workflow also closes the Azure preview environment when a pull request is closed. The active Git branch at the time this document was created was `html`.
 
